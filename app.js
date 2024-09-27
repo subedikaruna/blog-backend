@@ -36,6 +36,10 @@ const PORT = process.env.PORT;
 expressApp.listen(PORT, () => {
   console.log("port is running at 4000");
 });
+expressApp.get("/", (req, res) => {
+  res.send("Welcome to the backend!");
+});
+
 expressApp.post("/blog", isAuthenticated, createBlogController);
 expressApp.post("/login", loginUser);
 expressApp.post("/register", createUserController);
@@ -48,5 +52,5 @@ expressApp.post("/forgot-password", forgotPassword);
 expressApp.patch("/reset-password", isAuthenticated, resetPassword);
 expressApp.get("/blog", readAllBlogController);
 expressApp.get("/blog/:id", readSpecificBlogController);
-expressApp.patch("/blog/:id", isAuthenticated,updateSpecificBlogController);
-expressApp.delete("/blog/:id",isAuthenticated, deleteSpecificBlogController);
+expressApp.patch("/blog/:id", isAuthenticated, updateSpecificBlogController);
+expressApp.delete("/blog/:id", isAuthenticated, deleteSpecificBlogController);
