@@ -2,9 +2,15 @@ import { Blog } from "../schema/model.js";
 
 export const createBlogController = async (req, res, next) => {
   let data = req.body;
-
+  let filename 
+  if(req.file){
+    filename=req.file.filename
+  }else{
+    filename="messi.jpg"
+  }
+  console.log(filename)
   try {
-    let result = await Blog.create(data);
+    let result = await Blog.create({ ...data, avatar: filename });
     res.status(200).json({
       success: true,
       message: "Blog created Successfully",
@@ -17,6 +23,8 @@ export const createBlogController = async (req, res, next) => {
     });
   }
 };
+  
+ 
 export const readAllBlogController = async (req, res, next) => {
   try {
     let result = await Blog.find({});
@@ -38,7 +46,7 @@ export const readSpecificBlogController = async (req, res, next) => {
 
   try {
     let result = await Blog.findById(id);
-    console.log(result);
+
     res.status(200).json({
       success: true,
       message: "Single blog fetched",
@@ -53,7 +61,6 @@ export const readSpecificBlogController = async (req, res, next) => {
 };
 export const updateSpecificBlogController = async (req, res, next) => {
   try {
-   
     let result = await Blog.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
@@ -70,11 +77,10 @@ export const updateSpecificBlogController = async (req, res, next) => {
   }
 };
 export const deleteSpecificBlogController = async (req, res, next) => {
- 
   try {
-    const {id}=req.params
+    const { id } = req.params;
     let result = await Blog.findByIdAndDelete(id);
- 
+
     res.status(200).json({
       success: true,
       message: "Single blog deleted",

@@ -21,6 +21,9 @@ import {
   verifyEmail,
 } from "./src/controller/userController.js";
 import { isAuthenticated } from "./src/middleware/isAuthenticated.js";
+import multer from "multer";
+import storage from "./src/middleware/multerConfig.js";
+
 config();
 export const expressApp = express();
 
@@ -31,16 +34,25 @@ expressApp.use(
   //   origin:"http://localhost:3000"
   // }
 );
+// expressApp.use(express.static("./public")); //here .represents root folder
 connectToMongoDb();
 const PORT = process.env.PORT;
 expressApp.listen(PORT, () => {
   console.log("port is running at 4000");
 });
+const upload = multer({ storage: storage });
 expressApp.get("/", (req, res) => {
   res.send("Welcome to the backend!");
 });
+expressApp.use(express.static("./storage"));
 
-expressApp.post("/blog", isAuthenticated, createBlogController);
+expressApp.post(
+  "/blog",
+  isAuthenticated,
+  upload.single("avatar"),
+
+  createBlogController
+);
 expressApp.post("/login", loginUser);
 expressApp.post("/register", createUserController);
 expressApp.patch("/verify-email", verifyEmail);

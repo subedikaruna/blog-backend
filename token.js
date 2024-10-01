@@ -10,7 +10,7 @@ let expiryInfo={
     expiresIn:"365d"
 }
 export let token = await jwt.sign(info,secretkey,expiryInfo);
-console.log(token);
+
 
 //verify token
 export let verifiedToken=jwt.verify(token,secretkey)

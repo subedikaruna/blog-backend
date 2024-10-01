@@ -8,7 +8,7 @@ import bcrypt from "bcryptjs";
 export let createUserController = async (req, res, next) => {
   try {
     let data = req.body;
-
+   
     // Hash the password before saving
     data = {
       ...data,
@@ -130,9 +130,9 @@ export const loginUser = async (req, res, next) => {
 export const myProfile = async (req, res, next) => {
   try {
     let _id = req._id;
-    console.log(_id);
+   
     let result = await User.findById(_id);
-    console.log(_id);
+  
     res.status(200).json({
       success: true,
       message: "user read successfully",
